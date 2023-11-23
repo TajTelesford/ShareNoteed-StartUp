@@ -50,7 +50,23 @@ app.get('/home', async (req, res) => {
 
 })
 
-        // Delete Course (And Content Within Course)
+        // Delete Course    TODO::[(And Content Within Course)]
+app.delete('/home/:id', async (req, res) => {
+
+    try {
+        const { id } = req.params;
+        
+        const deleted = await pool.query(
+            "DELETE FROM courses WHERE course_id = $1",
+            [id]
+        );
+
+        res.json(`Deleted Course ID ${id}`)
+    } catch (err) {
+        console.log(err);
+    }
+
+})
     
         // Update Course
 
