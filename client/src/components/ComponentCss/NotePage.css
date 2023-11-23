@@ -1,0 +1,36 @@
+/* Styles for the folder (NotesPage) */
+.folder {
+    border: 2px solid #3498db; /* Folder border color */
+    border-radius: 10px;
+    overflow: hidden;
+    max-width: 500px; /* Adjust the maximum width as needed */
+    margin: auto; /* Center the folder */
+    margin-top: 20px;
+  }
+  
+  /* Styles for the tab (Note) */
+  .note-tab {
+    background-color: #38576b; /* Tab background color */
+    color: #fff; /* Tab text color */
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 2px solid #fff; /* Separator between tabs */
+  }
+  
+  /* Styles for the active tab (current note) */
+  .active-tab {
+    background-color: #fff; /* Active tab background color */
+    color: #3498db; /* Active tab text color */
+  }
+  
+  /* Styles for the content area */
+  .note-content {
+    padding: 20px;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .folder {
+      max-width: 100%;
+    }
+  }

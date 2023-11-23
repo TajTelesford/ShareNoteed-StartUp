@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom';
 import '../App.css'
+import NotesPage from '../routes/NotesPage';
 
 
 const SingleCourse = ({ id, course_name, setCourses }) => {
@@ -75,7 +77,6 @@ const SingleCourse = ({ id, course_name, setCourses }) => {
         <div className="card-body d-flex flex-column align-items-center">
             <h5 
                 className="card-title"
-                
             >
                 {!updating ?
                     course_name :
@@ -96,12 +97,9 @@ const SingleCourse = ({ id, course_name, setCourses }) => {
                 }
             </h5>
             <div className='mt-5' >
-                <button 
-                    className='btn btn-success' 
-                    
-                >
-                    Enter
-                </button>
+                <Link to={`/home/${id}/notes`} className="btn btn-success">
+                    Notes
+                </Link>
                 <button 
                     className='btn btn-warning' 
                     onClick={handleUpdate}

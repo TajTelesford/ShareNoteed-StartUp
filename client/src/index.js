@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import Home from './Home';
 import Dashboard from './routes/Dashboard'
+import NotesPage from './routes/NotesPage';
 
 import { 
   createBrowserRouter,
@@ -17,6 +18,7 @@ const router = createBrowserRouter(
     <Route path='/' >
       <Route path="/home" element={<Home />} />
       <Route path="/home/dashboard" element={<Dashboard />} />
+      <Route path="/home/:course_id/notes" element={<NotesPage/>} />
     </Route>
     
   )
