@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../App.css'
 
 
 const SingleCourse = ({ id, course_name, setCourses }) => {
+
+    const [ updating, setUpdating ] = useState(false);
+    const [ newCourseName, setNewCourseName ] = useState("");
 
     const handleDelete = async (e) => {
         e.preventDefault();
@@ -25,18 +28,83 @@ const SingleCourse = ({ id, course_name, setCourses }) => {
         }
     }
 
+    const handleUpdate = async (e) => {
+        e.preventDefault();
+        setUpdating(!updating);
+    }
+
+    const handleUpdatingCourseName = (e) => {
+        e.preventDefault();
+        setNewCourseName(e.target.value);
+    }
+
+    const handleUpdatedCourseName = async (e) => {
+        e.preventDefault();
+
+        try {
+            if (!newCourseName) return;
+            course_name = newCourseName;
+            const body = { course_name };
+
+            console.log(body);
+
+            const res = await fetch(`http://localhost:5000/home/${id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
+            })
+
+            setCourses((prev) =>
+                prev.map((course) =>
+                    course.course_id === id
+                        ? { ...course, course_name: newCourseName }
+                        : course
+            )
+        );
+
+            setUpdating(!updating)
+            setNewCourseName("");
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
   return (
     <div className="card">
         <div className="card-body d-flex flex-column align-items-center">
-            <h5 className="card-title">{course_name}</h5>
+            <h5 
+                className="card-title"
+                
+            >
+                {!updating ?
+                    course_name :
+                    <div>
+                        <input 
+                        placeholder='New Course name'
+                        value={newCourseName}
+                        onChange={handleUpdatingCourseName}
+                    />
+                    <button 
+                        className='btn btn-danger btn-sm' 
+                        onClick={handleUpdatedCourseName}
+                    >
+                        Confirm
+                    </button>
+                    </div>
+                    
+                }
+            </h5>
             <div className='mt-5' >
                 <button 
                     className='btn btn-success' 
+                    
                 >
                     Enter
                 </button>
                 <button 
                     className='btn btn-warning' 
+                    onClick={handleUpdate}
                 >
                     Update
                 </button>

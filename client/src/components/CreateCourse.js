@@ -19,6 +19,7 @@ const CreateCourse = ({ toggle }) => {
         e.preventDefault();
 
         try {
+            if (!course_name) return;
             const body = { course_name }
 
             console.log(body);

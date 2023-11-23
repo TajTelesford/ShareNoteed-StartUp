@@ -70,6 +70,26 @@ app.delete('/home/:id', async (req, res) => {
     
         // Update Course
 
+app.put('/home/:id', async (req, res) => {
+
+    try {
+        
+        const { id } = req.params;
+        const { course_name } = req.body;
+
+        const updated = await pool.query(
+            "UPDATE courses SET course_name = $1 WHERE course_id = $2",
+            [course_name, id]
+        )
+
+        res.json(`Update Course With ID: ${id} => ${course_name}`);
+
+    } catch (err) {
+        console.log(err);
+    }
+
+})
+
     // Course Notes
 
         // Create Course Notes
