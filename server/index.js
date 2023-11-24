@@ -22,7 +22,7 @@ app.post('/home', async (req, res) => {
             "insert into courses (course_name) VALUES($1) RETURNING *",
             [course_name]
         );
-        console.log(newCourse.rows[0]);
+        //console.log(newCourse.rows[0]);
         res.json(newCourse.rows[0]);
 
     } catch (err) {
@@ -41,7 +41,7 @@ app.get('/home', async (req, res) => {
             "select * from courses"
         );
 
-        console.log(courses.rows);
+        //console.log(courses.rows);
         res.json(courses.rows);
 
     } catch (err) {
@@ -102,12 +102,13 @@ app.post('/home/:course_id/notes', async (req, res) => {
 
         const { note_name } = req.body;
 
-        console.log(note_name);
-
         const courseNotes = await pool.query(
             "INSERT into notes (course_id, note_name) VALUES($1, $2) RETURNING *",
             [course_id, note_name]
         );
+
+        //console.log(courseNotes.rows);
+        res.json(courseNotes.rows[0]);
  
     } catch (err) {
         console.log(err);
@@ -122,14 +123,13 @@ app.get('/home/:course_id/notes', async (req, res) => {
     try {
         
         const { course_id } = req.params;
-        console.log(course_id);
+        
 
         const courseNotes = await pool.query(
             "SELECT * FROM notes WHERE course_id = $1",
             [course_id]
         );
 
-        console.log(courseNotes.rows);
         res.json(courseNotes.rows);
 
     } catch (err) {
@@ -139,6 +139,26 @@ app.get('/home/:course_id/notes', async (req, res) => {
 })
 
         // Delete Course Notes (And Content Within The Note)
+
+app.delete('/home/:course_id/:note_id/notes', async (req, res) => {
+
+    try {
+        
+        const { course_id, note_id } = req.params;
+
+        const deletedNote = await pool.query(
+            "DELETE FROM notes WHERE note_id = $1 AND course_id = $2",
+            [note_id, course_id]
+        );
+
+        res.json(`Deleted Note ${note_id}`)
+        console.log(deletedNote);
+
+    } catch (err) {
+        console.error(err);
+    }
+
+})
 
         // Update Course Notes Name
 

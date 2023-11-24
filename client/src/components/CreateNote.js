@@ -1,55 +1,67 @@
 import React, { useState } from 'react'
 
-const CreateCourse = ({ toggle }) => {
-    const [showForm, setShowForm] = useState(false);
+const CreateNote = ({ course_id, addNewNote, setActiveNote }) => {
 
-    const [ course_name, setCourseName ] = useState("");
+    const [ showForm, setShowForm ] = useState(false);
 
-    const handleButtonClick = () => {
-      setShowForm(!showForm);
-      toggle(showForm);
-    };
-  
-    const handleCloseForm = () => {
-      setShowForm(false);
-      toggle(showForm);
-    };
-  
+    const [ notesFolderName, setNotesFolderName ] = useState("");
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            if (!course_name) return;
-            const body = { course_name }
+            if (!notesFolderName) return;
 
-            console.log(body);
+            const note_name = notesFolderName;
 
-            await fetch('http://localhost:5000/home', {
+            const body = { note_name };
+
+            //console.log(body);
+
+            const res = await fetch(`http://localhost:5000/home/${course_id}/notes`, {
                 method: 'POST',
                 headers: {'Content-Type': "application/json"},
                 body: JSON.stringify(body) 
-            })
+            });
+            const data = await res.json();
 
-            setCourseName("")
+            //console.log(data.note_id);
+            const note_id = data.note_id
+
+            addNewNote(prev => [...prev,  { note_name, note_id }]);
+
+            setActiveNote({ note_id: '', isClicked: false })
+            setNotesFolderName("");
             setShowForm(!showForm)
-            toggle(showForm)
+
         } catch (err) {
             console.log(err);
         }
 
-    }
+    };
 
-    const handleInputChange = (e) => {
+
+    const handleClose = (e) => {
         e.preventDefault();
-        setCourseName(e.target.value);
+        setNotesFolderName("");
+        setShowForm(!showForm);
+    };
+
+    const handleChange = (e) => {
+        e.preventDefault();
+
+        setNotesFolderName(e.target.value);
     }
 
-    return (
-      <div className="position-fixed top-0 end-0 p-4">
-        <button className="btn btn-primary" onClick={handleButtonClick}>
-          Create Course
+  return (
+    <div className='position-fixed top-0 end-0 p-4'  >
+        <button 
+            className='btn btn-primary' 
+            onClick={() => setShowForm(!showForm)}
+        >
+            Create Notes
         </button>
-  
+
         {showForm && (
           <div className="position-fixed top-50 start-50 translate-middle">
             <div className="bg-light p-4 rounded shadow">
@@ -59,15 +71,15 @@ const CreateCourse = ({ toggle }) => {
               >
                 <div className="mb-3">
                   <label htmlFor="courseName" className="form-label">
-                    Course Name
+                    Notes Name
                   </label>
                   <input
                     type="text"
                     className="form-control"
                     id="courseName"
-                    placeholder="Enter course name"
-                    value={course_name}
-                    onChange={handleInputChange}
+                    placeholder="Enter note name"
+                    value={notesFolderName}
+                    onChange={handleChange}
                   />
                 </div>
                 <button 
@@ -79,7 +91,7 @@ const CreateCourse = ({ toggle }) => {
                 <button
                   type="button"
                   className="btn btn-secondary ms-2"
-                  onClick={handleCloseForm}
+                  onClick={handleClose}
                 >
                   Close
                 </button>
@@ -87,8 +99,9 @@ const CreateCourse = ({ toggle }) => {
             </div>
           </div>
         )}
-      </div>
+
+    </div>
   )
 }
 
-export default CreateCourse
+export default CreateNote;

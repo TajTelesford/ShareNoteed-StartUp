@@ -11,6 +11,7 @@ import {
   Route,
   RouterProvider 
 } from 'react-router-dom';
+import NavBar from './NavBarComponents/NavBar';
 
 
 const router = createBrowserRouter(
