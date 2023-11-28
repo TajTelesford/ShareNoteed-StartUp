@@ -4,6 +4,7 @@ const cors = require('cors');
 const pool = require('./Schema/database');
 require('dotenv').config();
 
+
 //middleware
 app.use(cors());
 app.use(express.json());
