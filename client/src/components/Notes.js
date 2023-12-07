@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const Notes = ({ note_id, course_id, note_name, setListOfNotes, setActiveNote }) => {
   const deleteNote = async (e) => {
@@ -30,6 +31,12 @@ const Notes = ({ note_id, course_id, note_name, setListOfNotes, setActiveNote })
       <div className="note-name">
         <h5>{note_name}</h5>
         <div>
+          <Link 
+            to={`/home/${course_id}/${note_id}/${note_name}/note`} 
+            className="btn btn-success btn-sm"
+            >
+              Notes
+            </Link>
           <button className="btn btn-danger btn-sm" onClick={deleteNote}>
             delete note
           </button>

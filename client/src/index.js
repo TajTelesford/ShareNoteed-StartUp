@@ -4,6 +4,7 @@ import './index.css';
 import Home from './Home';
 import Dashboard from './routes/Dashboard'
 import NotesPage from './routes/NotesPage';
+import NotePage from './routes/NotePage';
 
 import { 
   createBrowserRouter,
@@ -20,6 +21,7 @@ const router = createBrowserRouter(
       <Route path="/home" element={<Home />} />
       <Route path="/home/dashboard" element={<Dashboard />} />
       <Route path="/home/:course_id/notes" element={<NotesPage/>} />
+      <Route path='/home/:course_id/:note_id/:note_name/note' element={<NotePage/>} />
     </Route>
     
   )
